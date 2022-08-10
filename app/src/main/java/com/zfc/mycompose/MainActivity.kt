@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,35 +41,48 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DemoScreen() {
-    val modifier = Modifier
-        .border(width = 2.dp, color = Color.Black)
-        .padding(20.dp)
+    Column {
+        Row {
+            Column {
+                TextCell("1")
+                TextCell("2")
+                TextCell("3")
+            }
+            Column {
+                TextCell("4")
+                TextCell("5")
+                TextCell("6")
+            }
+            Column {
+                TextCell("7")
+                TextCell("8")
 
-    Column(Modifier.padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-        Text(
-            "Hello Compose" ,
-            modifier,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        CustomImage(drawing = R.drawable.dirk,
-            Modifier.padding(20.dp)
-                .clip(shape = RoundedCornerShape(30.dp)) //裁剪
-        )
+            }
+        }
+
+        Row {
+            TextCell("9")
+            TextCell("10")
+            TextCell("J")
+        }
     }
 }
 
 @Composable
-fun CustomImage(drawing: Int , modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(id = drawing),
-        contentDescription = "图片",
-        modifier
+fun TextCell(text:String , modifier: Modifier = Modifier) {
+    val cellModifier = Modifier
+        .size(100.dp, 100.dp)
+        .padding(4.dp)
+        .border(width = 4.dp, color = Color.Black)
+
+    Text(text,
+        cellModifier.then(modifier),
+        fontSize = 70.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
