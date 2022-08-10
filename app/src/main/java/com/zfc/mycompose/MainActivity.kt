@@ -4,11 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -88,6 +93,69 @@ fun TextCell(text:String , modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     MyComposeTheme {
-        DemoScreen()
+        MainScreen()
     }
+}
+
+@Composable
+fun MainScreen() {
+//    val list = listOf<String>("1","2","3","4","5","6","7","8","9")
+    val list = listOf<String>("1","2")
+    val isFeeVisible = remember {
+        mutableStateOf(false)
+    }
+
+    Column (
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(Color.Red)
+            .clickable {
+                isFeeVisible.value = !isFeeVisible.value
+            },
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    ){
+        if (isFeeVisible.value) {
+            FeeList(fees = list, onItemClicked = {})
+        } else {
+            Text(text = "Fee is Gone")
+        }
+    }
+}
+
+@Composable
+fun FeeList(fees:List<String>,onItemClicked : (String) -> Unit){
+    LazyColumn(
+        Modifier
+            .background(Color.Blue)
+            .run {
+                if(fees.size > 3){
+                    height(400.dp)
+                } else {
+                    wrapContentHeight(
+                    )
+                }
+            }
+        ){
+        items(fees.size){ index ->
+            DetailItem(title = fees[index], onItemClicked)
+        }
+    }
+}
+
+@Composable
+fun DetailItem(title:String, onItemClicked : (String) -> Unit) {
+    Text(text = title,
+        Modifier
+            .fillMaxWidth()
+            .border(width = 2.dp, color = Color.Black)
+            .padding(10.dp, 50.dp, 10.dp, 50.dp)
+            .clickable {
+                onItemClicked(title)
+            }
+            .background(Color.Green),
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center)
 }
