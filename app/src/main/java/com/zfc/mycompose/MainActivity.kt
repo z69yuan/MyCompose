@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -40,24 +41,69 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DemoScreen()
+                    MainScreen()
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun DemoScreen() {
+fun MainScreen(){
+//    Box{
+//        val height = 200.dp
+//        val width = 200.dp
+//        TextCell("1",Modifier.size(width = width , height = height))
+//        TextCell("2",Modifier.size(width = width , height = height))
+//        TextCell("3",Modifier.size(width = width , height = height))
+//    }
+
+//    Box(modifier = Modifier.size(height = 90.dp, width = 290.dp)) {
+//        Text("TopStart", Modifier.align(Alignment.TopStart))
+//        Text("TopCenter", Modifier.align(Alignment.TopCenter))
+//        Text("TopEnd", Modifier.align(Alignment.TopEnd))
+//
+//        Text("CenterStart", Modifier.align(Alignment.CenterStart))
+//        Text("Center", Modifier.align(Alignment.Center))
+//        Text(text = "CenterEnd", Modifier.align(Alignment.CenterEnd))
+//
+//        Text("BottomStart", Modifier.align(Alignment.BottomStart))
+//        Text("BottomCenter", Modifier.align(Alignment.BottomCenter))
+//        Text("BottomEnd", Modifier.align(Alignment.BottomEnd))
+//    }
+
+    Bagua()
 
 }
+
+@Composable
+fun Bagua() {
+    Box(Modifier.size(210.dp)
+        .clip(CutCornerShape((210/3.4f).toInt().dp))
+        .background(Color.Blue))
+}
+
+
+@Composable
+fun TextCell(text:String, modifier:Modifier = Modifier , fontSize:Int = 150){
+
+    val cellModifier = Modifier.padding(5.dp)
+        .border(width = 5.dp, color = Color.Black)
+    Text(text = text,
+        modifier = cellModifier.then(modifier),
+        fontSize = fontSize.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center)
+}
+
 
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MyComposeTheme {
-        DemoScreen()
+        MainScreen()
     }
 }
 
