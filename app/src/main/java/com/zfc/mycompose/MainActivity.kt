@@ -18,9 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.FirstBaseline
+import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -93,7 +96,36 @@ fun TextCell(text:String , modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     MyComposeTheme {
-        MainScreen()
+        MainScreen2()
+    }
+}
+
+@Composable
+fun DemoText() {
+    Row {
+        Text(text = "Hello World \nZfc",
+        modifier = Modifier.alignBy(FirstBaseline),
+        fontSize = 40.sp,
+        fontWeight = FontWeight.Bold,
+            lineHeight = 40.sp
+        )
+
+        Spacer(modifier = Modifier.width(20.dp))
+
+        Text(text = "Compose\nCompose\nCompose",
+            Modifier
+                .paddingFrom(LastBaseline, before = 100.dp, after = 10.dp),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+fun MainScreen2() {
+    Row {
+        TextCell("1", Modifier.weight(weight = 0.2f, fill = true))
+        TextCell("2", Modifier.weight(weight = 0.4f, fill = true))
+        TextCell("3", Modifier.weight(weight = 0.3f, fill = true))
     }
 }
 
