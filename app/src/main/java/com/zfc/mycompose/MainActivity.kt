@@ -19,9 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.FirstBaseline
-import androidx.compose.ui.layout.LastBaseline
-import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -29,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zfc.mycompose.ui.theme.MyComposeTheme
@@ -53,16 +52,39 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(){
-    Box(
-        modifier = Modifier.size(120.dp,80.dp)
-    ){
-        ClearBox(
-            Modifier
-                .offset()
-                .exampleLayout(20,40)
-                .background(Color.Blue)
+    Box {
+        CascadeLayout(spacing = 20) {
+            Box(modifier = Modifier.size(60.dp).background(Color.Blue))
+            Box(modifier = Modifier.size(80.dp, 40.dp).background(Color.Red))
+            Box(modifier = Modifier.size(90.dp, 100.dp).background(Color.Cyan))
+            Box(modifier = Modifier.size(50.dp).background(Color.Magenta))
+            Box(modifier = Modifier.size(70.dp).background(Color.Green))
+        }
+    }
+}
 
-        )
+@Composable
+fun CascadeLayout(
+    modifier: Modifier = Modifier,
+    spacing:Int = 0,
+    content: @Composable ()->Unit
+) {
+    Layout(modifier = modifier,
+        content = content){ measurables ,constraints ->
+
+        val placeables = measurables.map { measurable ->
+            measurable.measure(constraints)
+        }
+
+        layout(constraints.maxWidth,constraints.maxHeight){
+            var indent = 0
+            var yCoord = 0
+            placeables.forEach { placeable ->
+                placeable.placeRelative(x = indent, y = yCoord)
+                indent += placeable.width + spacing
+                yCoord += placeable.height + spacing
+            }
+        }
     }
 }
 
